@@ -1,0 +1,104 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-user-table
+      author: v.piha
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: name
+                  type: VARCHAR(500)
+              - column:
+                  name: date_of_birth
+                  type: DATE
+              - column:
+                  name: password
+                  type: VARCHAR(500)
+
+  - changeSet:
+      id: 002-create-account-table
+      author: v.piha
+      changes:
+        - createTable:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
+                    foreignKeyName: fk_account_user
+                    references: user(id)
+              - column:
+                  name: balance
+                  type: DECIMAL
+
+  - changeSet:
+      id: 003-create-email-data
+      author: v.piha
+      changes:
+        - createTable:
+            tableName: email_data
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_email_user
+                    references: user(id)
+              - column:
+                  name: email
+                  type: VARCHAR(200)
+                  constraints:
+                    unique: true
+
+  - changeSet:
+      id: 004-create-phone-data
+      author: v.piha
+      changes:
+        - createTable:
+            tableName: phone_data
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_phone_user
+                    references: user(id)
+              - column:
+                  name: phone
+                  type: VARCHAR(13)
+                  constraints:
+                    unique: true
